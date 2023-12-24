@@ -1,0 +1,13 @@
+{
+  "name": "Node.js",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+  "forwardPorts": [8080],
+  "updateContentCommand": "npm ci",
+  "postAttachCommand": "npm start",
+  "portsAttributes": { "8080": { "onAutoForward": "openPreview" } },
+  "customizations": {
+    "vscode": {
+      "extensions": ["esbenp.prettier-vscode"]
+    }
+  }
+}

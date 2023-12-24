@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>World Tree</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="graphContainer"></div>
+    <div id="contextMenu" class="contextMenu">
+      <button id="addSceneButton">Add Scene</button>
+      <button id="deleteSceneButton">Delete Scene</button>
+    </div>
+
+    <div id="sceneEditorContainer">
+      <div id="notes">
+        <div id="noteTabs"></div>
+        <div id="noteEditor"></div>
+      </div>
+
+      <div id="draftAreaContainer">
+        <textarea
+          id="draftArea"
+          placeholder="Write the scene content here."
+        ></textarea>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
