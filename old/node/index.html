@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>D3.js Node Manipulation with Context Menu</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <style>
+    .node circle {
+      fill: #fff;
+      stroke: steelblue;
+      stroke-width: 3px;
+    }
+
+    .node text {
+      font: 12px sans-serif;
+    }
+
+    .link {
+      fill: none;
+      stroke: #ccc;
+      stroke-width: 2px;
+    }
+
+    .context-menu {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="tree-container"></div>
+  <div class="context-menu">
+    <button onclick="addNode()">Add Node</button>
+    <button onclick="deleteNode()">Delete Node</button>
+  </div>
+  <script>
+    var data = {
+      nodes: [
+        {name: "Root", id: 1, x: 100, y: 100},
+        {name: "Child 1", id: 2, x: 200, y: 50},
+        {name: "Child 2", id: 3, x: 200, y: 150},
+      ],
+      links: [
+        {source: 1, target: 2},
+        {source: 1, target: 3},
+      ],
+    };
+
+    var nodeIdCounter = data.nodes.length;
+    var selectedNode = null;
+    var width = 500;
+    var height = 300;
+
+    var svg = d3
+      .select("#tree-container")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    var drag = d3.drag().on("start", dragstarted).on("drag", dragged);
+
+    function dragstarted(d) {
+      d3.select(this).raise().classed("active", true);
+    }
+
+    function dragged(d) {
+      d.x = d3.event.x;
+      d.y = d3.event.y;
+      d3.select(this).attr("cx", d.x).attr("cy", d.y);
+      updateLinks();
+    }
+
+    function showContextMenu(d) {
+      selectedNode = d;
+      d3.event.preventDefault();
+      d3.select(".context-menu")
+        .style("display", "block")
+        .style("left", d3.event.pageX + "px")
+        .style("top", d3.event.pageY + "px");
+    }
+
+    function addNode() {
+      if (!selectedNode) {
+        alert("Please select a node to add a new node.");
+        return;
+      }
+
+      nodeIdCounter++;
+      var newNode = {
+        name: "Node " + nodeIdCounter,
+        id: nodeIdCounter,
+        x: selectedNode.x + 50,
+        y: selectedNode.y,
+      }; // Set new node position
+      data.nodes.push(newNode);
+      data.links.push({source: selectedNode.id, target: nodeIdCounter});
+      update();
+      hideContextMenu();
+    }
+
+    function deleteNode() {
+      if (!selectedNode || selectedNode.id === 1) {
+        alert("Cannot delete the root node.");
+        return;
+      }
+      data.nodes = data.nodes.filter((node) => node.id !== selectedNode.id);
+      data.links = data.links.filter(
+        (link) =>
+          link.source !== selectedNode.id && link.target !== selectedNode.id
+      );
+      update();
+      hideContextMenu();
+    }
+
+    function hideContextMenu() {
+      d3.select(".context-menu").style("display", "none");
+    }
+
+    function update() {
+      svg.selectAll("*").remove();
+
+      link = svg
+        .selectAll(".link")
+        .data(data.links)
+        .enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("d", linkD);
+
+      node = svg
+        .selectAll(".node")
+        .data(data.nodes)
+        .enter()
+        .append("circle")
+        .attr("class", "node")
+        .attr("r", 10)
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y)
+        .call(drag)
+        .on("contextmenu", showContextMenu);
+    }
+
+    function linkD(d) {
+      const source = data.nodes.find((node) => node.id === d.source);
+      const target = data.nodes.find((node) => node.id === d.target);
+      return `M${source.x},${source.y}C${(source.x + target.x) / 2},${source.y
+        } ${(source.x + target.x) / 2},${target.y} ${target.x},${target.y}`;
+    }
+
+    function updateLinks() {
+      svg.selectAll(".link").attr("d", linkD);
+    }
+
+    update(); // Initial update call
+
+    // Hide the context menu on clicking elsewhere
+    d3.select("body").on("click", hideContextMenu);
+  </script>
+</body>
+
+</html>

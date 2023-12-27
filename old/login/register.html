@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>新規登録 - 小説家向けテキストエディタ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="login-container">
+    <h2>新規登録</h2>
+    <form action="/register" method="post">
+      <div class="form-group">
+        <label for="new-username">ユーザー名:</label>
+        <input type="text" id="new-username" name="new-username" required>
+      </div>
+      <div class="form-group">
+        <label for="new-password">パスワード:</label>
+        <input type="password" id="new-password" name="new-password" required>
+      </div>
+      <div class="form-group">
+        <label for="confirm-password">パスワード（確認）:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+      </div>
+      <button type="submit">登録</button>
+    </form>
+    <div class="login-link">
+      <a href="login.html">既にアカウントをお持ちの方はこちら</a>
+    </div>
+  </div>
+</body>
+
+</html>

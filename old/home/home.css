@@ -1,0 +1,17 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+}
+#newDoc {
+    margin: 10px;
+}
+#documentList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}

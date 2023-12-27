@@ -1,0 +1,13 @@
+#draftAreaContainer {
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 50%;
+}
+
+#draftArea {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
