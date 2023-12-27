@@ -46,24 +46,23 @@ class NovelEditor {
       .selectAll(".link")
       .data(this.currentNovel.connections)
       .enter()
-      .append("line")
+      .append("path")
       .attr("class", "link")
-      .attr(
-        "x1",
-        (d) => this.currentNovel.scenes.find((scene) => scene.id === d.from).x
-      )
-      .attr(
-        "y1",
-        (d) => this.currentNovel.scenes.find((scene) => scene.id === d.from).y
-      )
-      .attr(
-        "x2",
-        (d) => this.currentNovel.scenes.find((scene) => scene.id === d.to).x
-      )
-      .attr(
-        "y2",
-        (d) => this.currentNovel.scenes.find((scene) => scene.id === d.to).y
-      );
+      .attr("d", (d) => {
+        // ノードの位置を取得
+        const source = this.currentNovel.scenes.find((scene) => scene.id === d.from);
+        const target = this.currentNovel.scenes.find((scene) => scene.id === d.to);
+
+        // 制御点の計算（ここを調整して曲線を変える）
+        const controlX1 = (source.x + target.x) / 2;
+        const controlY1 = source.y;
+        const controlX2 = (source.x + target.x) / 2;
+        const controlY2 = target.y;
+
+        // 3次ベジエ曲線のパスを返す
+        return `M${source.x},${source.y}C${controlX1},${controlY1},${controlX2},${controlY2},${target.x},${target.y}`;
+      });
+
   }
 
   dragStarted(node) {
