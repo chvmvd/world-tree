@@ -20,11 +20,16 @@
   z-index: 10;
 }
 
-<style>
-  /* 追加されたCSS */
-  .node:hover {
-    cursor: pointer;
-    transform: scale(1.2); /* ホバー時に拡大 */
-    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3)); /* ホバー時に影を表示 */
-  }
-</style>
+
+/* 追加されたCSS */
+.node:hover {
+  cursor: pointer;
+  transform: scale(1.0);
+  transform-origin: center;
+  /* ホバー時に拡大 */
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
+  /* ホバー時に影を表示 */
+  fill: #9FA46D;
+  stroke: #0C0907;
+  stroke-width: 3px;
+}
