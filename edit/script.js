@@ -1,11 +1,9 @@
 class NovelEditor {
   constructor() {
     this.novels = JSON.parse(localStorage.getItem("novels")) || [];
-    this.currentNovelId = this.getNovelIdFromQuery();
     this.currentNovel = this.novels.find(
-      (novel) => novel.id === this.currentNovelId
+      (novel) => novel.id === localStorage.getItem("novelId")
     );
-    this.currentSceneId = null;
     this.currentScene = null;
     this.initializeGraph();
     document
@@ -14,10 +12,6 @@ class NovelEditor {
     document
       .getElementById("deleteSceneButton")
       .addEventListener("click", () => this.deleteScene());
-  }
-
-  getNovelIdFromQuery() {
-    return localStorage.getItem("novelId");
   }
 
   saveNovels() {
@@ -111,7 +105,7 @@ class NovelEditor {
 
     this.currentNovel.scenes.push(newScene);
     this.currentNovel.connections.push({
-      from: this.currentSceneId,
+      from: this.currentScene.id,
       to: newScene.id,
       type: "solid",
     });
@@ -120,21 +114,20 @@ class NovelEditor {
   }
 
   deleteScene() {
-    if (!this.currentSceneId) {
+    if (!this.currentScene.id) {
       alert("削除するシーンを選択してください。");
       return;
     }
 
     this.currentNovel.scenes = this.currentNovel.scenes.filter(
-      (scene) => scene.id !== this.currentSceneId
+      (scene) => scene.id !== this.currentScene.id
     );
     this.currentNovel.connections = this.currentNovel.connections.filter(
       (connection) =>
-        connection.from !== this.currentSceneId &&
-        connection.to !== this.currentSceneId
+        connection.from !== this.currentScene.id &&
+        connection.to !== this.currentScene.id
     );
 
-    this.currentSceneId = null;
     this.currentScene = null;
     this.saveNovels();
     this.updateGraph();
@@ -142,7 +135,6 @@ class NovelEditor {
 
   showContextMenu(d) {
     d3.event.preventDefault();
-    this.currentSceneId = d.id;
     this.currentScene = d;
     const menu = document.getElementById("contextMenu");
     menu.style.display = "block";
@@ -151,7 +143,6 @@ class NovelEditor {
   }
 
   handleSceneSelection(sceneId) {
-    this.currentSceneId = sceneId;
     this.currentScene = this.currentNovel.scenes.find(
       (scene) => scene.id === sceneId
     );
@@ -208,7 +199,7 @@ class NovelEditor {
   }
 
   updateDraftArea() {
-    const draftArea = document.getElementById("draftArea");
+    const draftArea = document.getElementById("editor");
     draftArea.value = this.currentScene.content;
     draftArea.oninput = () => {
       this.currentScene.content = draftArea.value;
@@ -228,10 +219,10 @@ d3.select("body").on("click", () => novelEditor.hideContextMenu());
 var nodes = document.getElementsByClassName('node');
 
 for (var i = 0; i < nodes.length; i++) {
-    nodes[i].addEventListener('click', function() {
-        for (var j = 0; j < nodes.length; j++) {
-            nodes[j].style.fill = '#40592F';
-        }
-        this.style.fill = '#9FA46D';
-    });
+  nodes[i].addEventListener('click', function() {
+    for (var j = 0; j < nodes.length; j++) {
+      nodes[j].style.fill = '#40592F';
+    }
+    this.style.fill = '#9FA46D';
+  });
 }
