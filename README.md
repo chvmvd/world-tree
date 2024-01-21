@@ -10,6 +10,7 @@ const novels = [
     scenes: [
       {
         id: "29f3b5d3-7e42-4ab8-8231-9396c961e6e5",
+        name: "シーン1",
         notes: [
           {
             type: "概要1",
@@ -26,6 +27,7 @@ const novels = [
       },
       {
         id: "7bc54e52-e6c3-4b61-810e-5b569d3793cf",
+        name: "シーン2",
         notes: [
           {
             type: "概要2",
@@ -42,6 +44,7 @@ const novels = [
       },
       {
         id: "fb7d1e12-517d-4ecf-8de6-07c1b5cf2c93",
+        name: "シーン3",
         notes: [
           {
             type: "概要3",

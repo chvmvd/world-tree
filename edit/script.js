@@ -112,6 +112,7 @@ class NovelEditor {
       .on("start", (_, i, nodes) => this.dragStarted(nodes[i]))
       .on("drag", (d) => this.dragged(d));
 
+    // ノードの描画
     this.svg
       .selectAll(".node")
       .data(this.currentNovel.scenes)
@@ -127,12 +128,30 @@ class NovelEditor {
         this.currentScene = d;
         this.handleSceneSelection();
       });
+
+    // テキスト要素の描画
+    this.svg
+      .selectAll(".node-text")
+      .data(this.currentNovel.scenes)
+      .enter()
+      .append("text")
+      .attr("class", "node-text")
+      .attr("x", (d) => d.x)
+      .attr("y", (d) => d.y + 20)
+      .text((d) => d.name)
+      .attr("text-anchor", "middle")
+      .attr("font-size", "10px");
   }
 
   addScene() {
+    const sceneName = prompt("新しいシーンの名前を入力してください。", "新しいシーン");
+    if (sceneName === null || sceneName.trim() === "") {
+      return;
+    }
+
     const newScene = {
       id: self.crypto.randomUUID(),
-      name: "新しいシーン",
+      name: sceneName,
       notes: [
         { type: "概要", content: "" },
         { type: "人物", content: "" },

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
         scenes: [
           {
             id: self.crypto.randomUUID(),
-            name: "新しいシーン",
+            name: "はじまり",
             notes: [
               { type: "概要", content: "" },
               { type: "人物", content: "" },
