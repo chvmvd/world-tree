@@ -6,35 +6,3 @@
   width: 50%;
   border-left: 6px solid black;
 }
-
-#editor {
-  border: 1px solid #ccc;
-  min-height: 100px;
-  padding: 10px;
-  color: black;
-  font-size: 14px;
-}
-
-#toolbar button {
-  background-color: #40592F;
-  /* 緑色の背景 */
-  color: white;
-  /* 白色のテキスト */
-  padding: 1.5px 2px;
-  /* 上下に10px、左右に15pxのパディング */
-  border: none;
-  /* 境界線なし */
-  border-radius: 2px;
-  /* 角を丸くする */
-  cursor: pointer;
-  /* ホバー時にカーソルをポインターにする */
-  font-size: 14px;
-  /* フォントサイズ */
-  margin: 4px 1px 0px 10px;
-  /* マージン */
-}
-
-#toolbar button:hover {
-  background-color: #5B7F43;
-  /* ホバー時に背景色を少し明るくする */
-}

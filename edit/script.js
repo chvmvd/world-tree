@@ -1,11 +1,17 @@
 class NovelEditor {
   constructor() {
     this.novels = JSON.parse(localStorage.getItem("novels")) || [];
+    if (this.novels.length === 0 || !localStorage.getItem("novelId")) {
+      window.location.href = "../";
+    }
     this.currentNovel = this.novels.find(
       (novel) => novel.id === localStorage.getItem("novelId")
     );
-    this.currentScene = null;
+    this.currentScene = this.currentNovel.scenes[0];
+    this.currentNote = this.currentScene.notes[0];
     this.initializeGraph();
+    this.initializeNote();
+    this.initializeDraftArea();
     document
       .getElementById("addSceneButton")
       .addEventListener("click", () => this.addScene());
@@ -16,6 +22,36 @@ class NovelEditor {
 
   saveNovels() {
     localStorage.setItem("novels", JSON.stringify(this.novels));
+  }
+
+  initializeNote() {
+    this.noteEditor = new Quill("#noteEditor", {
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, 3, false] }],
+          ["bold", "italic", "underline", "strike"],
+          ["link", "image", "code-block"],
+          [{ color: [] }, { background: [] }],
+        ],
+      },
+      placeholder: "ここに入力してください。",
+      theme: "snow",
+    });
+  }
+
+  initializeDraftArea() {
+    this.draftAreaEditor = new Quill("#draftAreaEditor", {
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, 3, false] }],
+          ["bold", "italic", "underline", "strike"],
+          ["link", "image", "code-block"],
+          [{ color: [] }, { background: [] }],
+        ],
+      },
+      placeholder: "ここに入力してください。",
+      theme: "snow",
+    });
   }
 
   initializeGraph() {
@@ -87,7 +123,10 @@ class NovelEditor {
       .attr("cy", (d) => d.y)
       .call(drag)
       .on("contextmenu", (d) => this.showContextMenu(d))
-      .on("click", (d) => this.handleSceneSelection(d.id));
+      .on("click", (d) => {
+        this.currentScene = d;
+        this.handleSceneSelection();
+      });
   }
 
   addScene() {
@@ -128,7 +167,7 @@ class NovelEditor {
         connection.to !== this.currentScene.id
     );
 
-    this.currentScene = null;
+    this.currentScene = this.currentNovel.scenes[0];
     this.saveNovels();
     this.updateGraph();
   }
@@ -142,12 +181,9 @@ class NovelEditor {
     menu.style.top = `${d3.event.pageY}px`;
   }
 
-  handleSceneSelection(sceneId) {
-    this.currentScene = this.currentNovel.scenes.find(
-      (scene) => scene.id === sceneId
-    );
+  handleSceneSelection() {
     this.updateSceneTabs();
-    this.updateSceneEditor();
+    this.updateNoteEditor();
     this.updateDraftArea();
   }
 
@@ -158,7 +194,10 @@ class NovelEditor {
     this.currentScene.notes.forEach((note) => {
       const tab = document.createElement("button");
       tab.textContent = note.type;
-      tab.onclick = () => this.updateSceneEditor(note.type);
+      tab.onclick = () => {
+        this.currentNote = note;
+        this.handleSceneSelection();
+      };
       tabs.appendChild(tab);
     });
 
@@ -179,32 +218,27 @@ class NovelEditor {
       content: "",
     };
     this.currentScene.notes.push(note);
-    this.updateSceneTabs();
-    this.updateSceneEditor(noteType);
+    this.currentNote = note;
     this.saveNovels();
+    this.handleSceneSelection();
   }
 
-  updateSceneEditor(noteType) {
-    const editor = document.getElementById("noteEditor");
-    editor.innerHTML = "";
-    const note = this.currentScene.notes.find((n) => n.type === noteType);
-
-    const textarea = document.createElement("textarea");
-    textarea.value = note ? note.content : "";
-    textarea.oninput = () => {
-      note.content = textarea.value;
+  updateNoteEditor() {
+    this.noteEditor.setContents(this.currentNote.content);
+    this.noteEditor.off("text-change");
+    this.noteEditor.on("text-change", () => {
+      this.currentNote.content = this.noteEditor.getContents();
       this.saveNovels();
-    };
-    editor.appendChild(textarea);
+    })
   }
 
   updateDraftArea() {
-    const draftArea = document.getElementById("editor");
-    draftArea.value = this.currentScene.content;
-    draftArea.oninput = () => {
-      this.currentScene.content = draftArea.value;
+    this.draftAreaEditor.setContents(this.currentScene.content);
+    this.draftAreaEditor.off("text-change");
+    this.draftAreaEditor.on("text-change", () => {
+      this.currentScene.content = this.draftAreaEditor.getContents();
       this.saveNovels();
-    };
+    });
   }
 
   hideContextMenu() {

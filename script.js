@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", function() {
             id: self.crypto.randomUUID(),
             name: "新しいシーン",
             notes: [
-              { type: "概要", content: "これは概要です。" },
-              { type: "人物", content: "これは人物です。" },
+              { type: "概要", content: "" },
+              { type: "人物", content: "" },
             ],
-            content: "これは本文です。",
+            content: "",
             x: 100,
             y: 100,
           },

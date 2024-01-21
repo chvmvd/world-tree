@@ -19,13 +19,7 @@
   text-align: left;
 }
 
-#noteEditor {
-  flex-grow: 1;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-#noteEditor textarea {
+#noteEditorContainer {
+  flex-direction: column;
   width: 100%;
-  height: 100%;
 }
