@@ -112,6 +112,7 @@ class NovelEditor {
       .on("start", (_, i, nodes) => this.dragStarted(nodes[i]))
       .on("drag", (d) => this.dragged(d));
 
+    const self = this; // `this` の参照を保存
     // ノードの描画
     this.svg
       .selectAll(".node")
@@ -124,9 +125,14 @@ class NovelEditor {
       .attr("cy", (d) => d.y)
       .call(drag)
       .on("contextmenu", (d) => this.showContextMenu(d))
-      .on("click", (d) => {
-        this.currentScene = d;
-        this.handleSceneSelection();
+      .on("click", function(d) {
+        self.currentScene = d;
+        self.handleSceneSelection();
+
+        // すべてのノードの色をリセット
+        d3.selectAll(".node").style("fill", "#40592F");
+        // クリックされたノードの色を変更
+        d3.select(this).style("fill", "#9FA46D");
       });
 
     // テキスト要素の描画
@@ -269,13 +275,3 @@ class NovelEditor {
 // アプリケーションの初期化
 const novelEditor = new NovelEditor();
 d3.select("body").on("click", () => novelEditor.hideContextMenu());
-var nodes = document.getElementsByClassName('node');
-
-for (var i = 0; i < nodes.length; i++) {
-  nodes[i].addEventListener('click', function() {
-    for (var j = 0; j < nodes.length; j++) {
-      nodes[j].style.fill = '#40592F';
-    }
-    this.style.fill = '#9FA46D';
-  });
-}
