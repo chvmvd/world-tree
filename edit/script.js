@@ -225,3 +225,13 @@ class NovelEditor {
 // アプリケーションの初期化
 const novelEditor = new NovelEditor();
 d3.select("body").on("click", () => novelEditor.hideContextMenu());
+var nodes = document.getElementsByClassName('node');
+
+for (var i = 0; i < nodes.length; i++) {
+    nodes[i].addEventListener('click', function() {
+        for (var j = 0; j < nodes.length; j++) {
+            nodes[j].style.fill = '#40592F';
+        }
+        this.style.fill = '#9FA46D';
+    });
+}
