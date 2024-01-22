@@ -1,3 +1,17 @@
+const quillSettings = {
+  modules: {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
+      ["link", "image", "video", "blockquote", "code-block", "formula"],
+      [{ list: "bullet" }, { list: "ordered" }],
+      [{ color: [] }, { background: [] }],
+    ],
+  },
+  placeholder: "ここに入力してください。",
+  theme: "snow",
+}
+
 class NovelEditor {
   constructor() {
     this.novels = JSON.parse(localStorage.getItem("novels")) || [];
@@ -25,33 +39,11 @@ class NovelEditor {
   }
 
   initializeNote() {
-    this.noteEditor = new Quill("#noteEditor", {
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, 3, false] }],
-          ["bold", "italic", "underline", "strike"],
-          ["link", "image", "code-block"],
-          [{ color: [] }, { background: [] }],
-        ],
-      },
-      placeholder: "ここに入力してください。",
-      theme: "snow",
-    });
+    this.noteEditor = new Quill("#noteEditor", quillSettings);
   }
 
   initializeDraftArea() {
-    this.draftAreaEditor = new Quill("#draftAreaEditor", {
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, 3, false] }],
-          ["bold", "italic", "underline", "strike"],
-          ["link", "image", "code-block"],
-          [{ color: [] }, { background: [] }],
-        ],
-      },
-      placeholder: "ここに入力してください。",
-      theme: "snow",
-    });
+    this.draftAreaEditor = new Quill("#draftAreaEditor", quillSettings);
   }
 
   initializeGraph() {
