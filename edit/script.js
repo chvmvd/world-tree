@@ -26,6 +26,7 @@ class NovelEditor {
     this.initializeGraph();
     this.initializeNote();
     this.initializeDraftArea();
+    document.getElementById("novelTitle").textContent = this.currentNovel.title;
     document
       .getElementById("addSceneButton")
       .addEventListener("click", () => this.addScene());
@@ -241,6 +242,7 @@ class NovelEditor {
   }
 
   updateNoteEditor() {
+    document.getElementById("noteTabTitle").textContent = this.currentNote.type;
     this.noteEditor.setContents(this.currentNote.content);
     this.noteEditor.off("text-change");
     this.noteEditor.on("text-change", () => {
@@ -250,6 +252,7 @@ class NovelEditor {
   }
 
   updateDraftArea() {
+    document.getElementById("draftAreaTitle").textContent = this.currentScene.name + "の本文";
     this.draftAreaEditor.setContents(this.currentScene.content);
     this.draftAreaEditor.off("text-change");
     this.draftAreaEditor.on("text-change", () => {

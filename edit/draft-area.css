@@ -6,3 +6,8 @@
   width: 50%;
   border-left: 6px solid black;
 }
+
+#draftAreaTitle {
+  padding: 5px;
+  margin: 5px;
+}

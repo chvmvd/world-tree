@@ -21,6 +21,11 @@
   border-radius: 10px;
 }
 
+#noteTabTitle {
+  padding: 5px;
+  margin: 5px;
+}
+
 #noteEditorContainer {
   flex-direction: column;
   width: 100%;

@@ -1,9 +1,24 @@
 body {
-  display: flex;
-  flex-direction: column;
+  padding: 0;
+  margin: 0;
   height: 100vh;
   width: 100vw;
+}
+
+#novelTitle {
+  background-color: #9FA46D;
+  padding: 5px;
+  padding-left: 20px;
+  margin: 0;
+  text-align: left;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
   background-color: #F4FCEE;
+  height: 100%;
+  width: 100%;
   margin: 0;
   /* マージンを取り除く */
   border: 6px solid black;
@@ -11,6 +26,7 @@ body {
 
 #graphContainer {
   height: 30%;
+  width: 100%;
   border-bottom: 4px solid #9FA46D;
 }
 

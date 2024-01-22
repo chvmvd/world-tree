@@ -20,24 +20,29 @@
 </head>
 
 <body>
-  <div id="graphContainer"></div>
-  <div id="contextMenu" class="contextMenu">
-    <button id="addSceneButton">Add Scene</button>
-    <button id="deleteSceneButton">Delete Scene</button>
-  </div>
+  <h1 id="novelTitle"></h1>
+  <main>
+    <div id="graphContainer"></div>
+    <div id="contextMenu" class="contextMenu">
+      <button id="addSceneButton">Add Scene</button>
+      <button id="deleteSceneButton">Delete Scene</button>
+    </div>
 
-  <div id="sceneEditorContainer">
-    <div id="notes">
-      <div id="noteTabs"></div>
-      <div id="noteEditorContainer">
-        <div id="noteEditor"></div>
+    <div id="sceneEditorContainer">
+      <div id="notes">
+        <div id="noteTabs"></div>
+        <div id="noteEditorContainer">
+          <h2 id="noteTabTitle"></h2>
+          <div id="noteEditor"></div>
+        </div>
+      </div>
+
+      <div id="draftAreaContainer">
+        <h2 id="draftAreaTitle"></h2>
+        <div id="draftAreaEditor"></div>
       </div>
     </div>
-
-    <div id="draftAreaContainer">
-      <div id="draftAreaEditor"></div>
-    </div>
-  </div>
+  </main>
 
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <script src="./script.js"></script>
